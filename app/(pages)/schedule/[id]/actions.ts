@@ -1,5 +1,7 @@
 'use server';
 
+import { lineClient } from '@/lib/lineMessagingApiClient';
+
 interface ScheduleData {
 	title: string;
 	date: string;
@@ -30,22 +32,27 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 	console.log(message);
 	console.log('=====================================');
 
-	// 実際のLINE Messaging API呼び出し例:
-	const response = await fetch('https://api.line.me/v2/bot/message/push', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
-		},
-		body: JSON.stringify({
-			to: process.env.GROUP_ID_OR_USER_ID, // 実際のグループIDまたはユーザーIDを指定
-			messages: [
-				{
-					type: 'text',
-					text: message,
-				},
-			],
-		}),
+	// // 実際のLINE Messaging API呼び出し例:
+	// const response = await fetch('https://api.line.me/v2/bot/message/push', {
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 		Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
+	// 	},
+	// 	body: JSON.stringify({
+	// 		to: process.env.GROUP_ID_OR_USER_ID, // 実際のグループIDまたはユーザーIDを指定
+	// 		messages: [
+	// 			{
+	// 				type: 'text',
+	// 				text: message,
+	// 			},
+	// 		],
+	// 	}),
+	// });
+
+	await lineClient.pushMessage({
+		to: process.env.GROUP_ID_OR_USER_ID ?? '',
+		messages: [{ type: 'text', text: message }],
 	});
 
 	// 成功をシミュレート
