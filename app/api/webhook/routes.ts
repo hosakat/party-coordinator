@@ -1,15 +1,11 @@
-// app/api/webhook/route.ts
 import { NextResponse } from 'next/server';
-import axios from 'axios';
 import { lineClient } from '@/lib/lineMessagingApiClient';
-
-// LINE Messaging APIのチャネルアクセストークン
-const CHANNEL_ACCESS_TOKEN = 'YOUR_CHANNEL_ACCESS_TOKEN';
 
 interface LineMessage {
 	type: string; // メッセージタイプ（text、image、video など）
 	id: string;
 	text?: string; // textメッセージの場合にテキスト内容
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[key: string]: any;
 }
 
@@ -25,6 +21,7 @@ type LineEvent = {
 	source: LineSource;
 	timestamp: number; // イベントのタイムスタンプ
 	message: LineMessage; // メッセージの詳細
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[key: string]: any;
 };
 
