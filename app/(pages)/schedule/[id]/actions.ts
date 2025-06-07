@@ -50,10 +50,12 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 	// 	}),
 	// });
 
-	await lineClient.pushMessage({
+	const res = await lineClient.pushMessage({
 		to: process.env.GROUP_ID_OR_USER_ID ?? '',
 		messages: [{ type: 'text', text: message }],
 	});
+
+	console.log(res);
 
 	// 成功をシミュレート
 	await new Promise((resolve) => setTimeout(resolve, 1000));
