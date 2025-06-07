@@ -3,7 +3,9 @@ import { middleware as lineMiddleware } from '@line/bot-sdk';
 
 const lineConfig = {
 	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
-	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
+	channelSecret:
+		process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET ||
+		'492e9c5deca67bd09bdbe85c97b9488f',
 };
 
 // // 署名検証を行う関数
