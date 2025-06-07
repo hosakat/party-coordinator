@@ -38,7 +38,8 @@ export async function POST(req: Request) {
 				console.log('Join event received:', event);
 				if (event.source.type !== 'group' || !event.source.groupId) {
 					console.error('Join event without groupId:', event);
-					throw new Error('グループIDがありません。');
+					// throw new Error('グループIDがありません。');
+					continue;
 				}
 				const groupSummary = await lineClient.getGroupSummary(
 					event.source.groupId
@@ -97,6 +98,10 @@ export async function POST(req: Request) {
 			{ status: 200 }
 		);
 	} catch (error) {
+		await lineClient.pushMessage({
+			to: process.env.GROUP_ID_OR_USER_ID ?? '',
+			messages: [{ type: 'text', text: `エラー ${error}` }],
+		});
 		console.error('Error processing webhook:', error);
 		return NextResponse.json({ error: 'Invalid request' }, { status: 500 });
 	}
