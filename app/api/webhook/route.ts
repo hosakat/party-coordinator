@@ -31,15 +31,15 @@ type LineWebhook = {
 };
 
 const config = {
-	channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN || '',
-	channelSecret: process.env.LINE_CHANNEL_SECRET || '',
+	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
+	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
 };
 
 // // 署名検証を行う関数
 // function verifySignature(signature: string, body: string) {
 // 	const hmac = crypto.createHmac(
 // 		'SHA256',
-// 		process.env.LINE_CHANNEL_SECRET || ''
+// 		process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || ''
 // 	);
 // 	hmac.update(body);
 // 	const computedSignature = hmac.digest('base64');
