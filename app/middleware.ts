@@ -18,10 +18,11 @@ const lineConfig = {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function middleware(req: NextRequest) {
+export function middleware(req: NextRequest) {
 	try {
 		// ミドルウェアによるシグネチャ検証
-		lineMiddleware(lineConfig);
+		const response = lineMiddleware(lineConfig);
+		return response;
 	} catch (error) {
 		console.error('Error processing webhook:', error);
 		return NextResponse.json(

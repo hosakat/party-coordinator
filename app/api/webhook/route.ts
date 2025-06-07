@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { lineClient } from '@/lib/lineMessagingApiClient';
-import { middleware } from '@line/bot-sdk';
 
 interface LineMessage {
 	type: string; // メッセージタイプ（text、image、video など）
@@ -30,10 +29,10 @@ type LineWebhook = {
 	events: LineEvent[];
 };
 
-const config = {
-	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
-	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
-};
+// const config = {
+// 	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
+// 	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
+// };
 
 // // 署名検証を行う関数
 // function verifySignature(signature: string, body: string) {
@@ -54,10 +53,10 @@ export async function POST(req: Request) {
 		// リクエストのボディを取得
 		const body = await req.text();
 
-		// ミドルウェアによるシグネチャ検証
-		if (!middleware(config)) {
-			return NextResponse.json({ error: 'Invalid signature' }, { status: 403 });
-		}
+		// // ミドルウェアによるシグネチャ検証
+		// if (!middleware(config)) {
+		// 	return NextResponse.json({ error: 'Invalid signature' }, { status: 403 });
+		// }
 
 		const bodyParsed: LineWebhook = JSON.parse(body);
 
