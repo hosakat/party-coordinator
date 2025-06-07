@@ -40,10 +40,17 @@ export async function POST(req: Request) {
 					console.error('Join event without groupId:', event);
 					throw new Error('グループIDがありません。');
 				}
-				const groppSummary = await lineClient.getGroupSummary(
+				const groupSummary = await lineClient.getGroupSummary(
 					event.source.groupId
 				);
-				console.log('Group Summary:', groppSummary);
+				console.log('Group Summary:', groupSummary);
+
+				await lineClient.pushMessage({
+					to: groupSummary.groupId,
+					messages: [
+						{ type: 'text', text: `参加しました！ ${groupSummary.groupName}` },
+					],
+				});
 			}
 			// メッセージイベントが送られてきた場合
 			// if (event.type === 'message' && event.message.type === 'text') {
