@@ -37,7 +37,7 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 	// 	method: 'POST',
 	// 	headers: {
 	// 		'Content-Type': 'application/json',
-	// 		Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
+	// 		Authorization: `Bearer ${process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN}`,
 	// 	},
 	// 	body: JSON.stringify({
 	// 		to: process.env.GROUP_ID_OR_USER_ID, // 実際のグループIDまたはユーザーIDを指定
