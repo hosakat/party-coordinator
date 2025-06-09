@@ -29,37 +29,11 @@ type LineWebhook = {
 	events: LineEvent[];
 };
 
-// const config = {
-// 	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
-// 	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
-// };
-
-// // 署名検証を行う関数
-// function verifySignature(signature: string, body: string) {
-// 	const hmac = crypto.createHmac(
-// 		'SHA256',
-// 		process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || ''
-// 	);
-// 	hmac.update(body);
-// 	const computedSignature = hmac.digest('base64');
-// 	return computedSignature === signature;
-// }
-
 export async function POST(req: Request) {
 	if (process.env.VERCEL_ENV === 'production') {
 		try {
-			// リクエストのヘッダーから署名を取得
-			// const signature = req.headers.get('X-Line-Signature') || '';
-
 			// リクエストのボディを取得
 			const body: LineWebhook = await req.json();
-
-			// // ミドルウェアによるシグネチャ検証
-			// if (!middleware(config)) {
-			// 	return NextResponse.json({ error: 'Invalid signature' }, { status: 403 });
-			// }
-
-			// const bodyParsed: LineWebhook = JSON.parse(body);
 
 			for (const event of body.events) {
 				if (event.type === 'join') {
