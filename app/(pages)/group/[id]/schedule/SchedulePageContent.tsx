@@ -46,6 +46,11 @@ const nomikaiData = {
 		description: '毎月恒例のチーム飲み会',
 		participants: 10,
 	},
+	C42a4b55007a96fcf7cea2ed90381eb4a: {
+		title: 'テスト飲み会',
+		description: '開発テスト飲み会',
+		participants: 10,
+	},
 };
 
 export default function SchedulePageContent({ partyId }: { partyId: string }) {
@@ -62,6 +67,19 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 		return <div>飲み会が見つかりません</div>;
 	}
 
+	const handleGroupApiRequest = async () => {
+		try {
+			const res = await fetch('/api/group', {
+				method: 'GET',
+			});
+			if (!res.ok) throw new Error('APIリクエスト失敗');
+			const data = await res.json();
+			alert('グループAPIリクエスト成功: ' + JSON.stringify(data));
+		} catch (error) {
+			alert('グループAPIリクエスト失敗: ' + error);
+		}
+	};
+
 	const handleScheduleConfirm = async () => {
 		if (!selectedDate || !selectedTime) return;
 
@@ -76,6 +94,7 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 			);
 
 			await sendScheduleNotification({
+				groupId: partyId,
 				title: nomikai.title,
 				date: scheduledDateTime.toLocaleDateString('ja-JP'),
 				time: selectedTime,
@@ -198,6 +217,11 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 						</Card>
 					)}
 				</div>
+			</div>
+			<div className="mb-4">
+				<Button onClick={handleGroupApiRequest} variant="outline">
+					グループAPIリクエスト
+				</Button>
 			</div>
 		</div>
 	);

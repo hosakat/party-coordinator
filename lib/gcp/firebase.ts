@@ -10,7 +10,7 @@ const serviceAccount = {
 	privateKey: serviceAccountJson.private_key,
 };
 
-console.log('Firebase service account:', serviceAccount);
+// console.log('Firebase service account:', serviceAccount);
 
 if (!admin.apps.length) {
 	admin.initializeApp({
