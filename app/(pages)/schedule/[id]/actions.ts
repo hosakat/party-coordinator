@@ -1,6 +1,6 @@
 'use server';
 
-import { lineClient } from '@/lib/lineMessagingApiClient';
+import { lineClient } from '@/lib/line/lineMessagingApiClient';
 
 interface ScheduleData {
 	title: string;
