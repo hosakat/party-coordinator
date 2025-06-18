@@ -98,7 +98,7 @@ export async function POST(req: Request) {
 					messages: [
 						{
 							type: 'text',
-							text: messages.manage_url(groupSummary.groupId),
+							text: messages.schedule_url(groupSummary.groupId),
 						},
 					],
 				});
