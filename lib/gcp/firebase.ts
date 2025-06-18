@@ -2,7 +2,11 @@ import admin from 'firebase-admin';
 
 // サービスアカウントのパスを指定
 // import serviceAccountJson from '../../sa-key.json';
-import serviceAccountJson from '../../firebase-adminsdk.json' assert { type: 'json' };
+// import serviceAccountJson from '../../firebase-adminsdk.json' assert { type: 'json' };
+
+const serviceAccountJson = JSON.parse(
+	process.env.FIREBASE_SERVICE_ACCOUNT as string
+);
 
 const serviceAccount = {
 	projectId: serviceAccountJson.project_id,

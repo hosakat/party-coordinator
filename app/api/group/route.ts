@@ -1,8 +1,7 @@
-import { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
 import { db } from '../../../lib/gcp/firebase';
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: Request) {
 	console.log('Received request:', req, req.url);
 	try {
 		const snapshot = await db.collection('group').get();

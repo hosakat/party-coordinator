@@ -3,8 +3,8 @@ import { middleware as lineMiddleware } from '@line/bot-sdk';
 // import crypto from 'crypto';
 
 const lineConfig = {
-	channelAccessToken: process.env.NEXT_PUBLIC_LINE_CHANNEL_ACCESS_TOKEN || '',
-	channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET || '',
+	channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN || '',
+	channelSecret: process.env.LINE_CHANNEL_SECRET || '',
 };
 
 // // 署名検証を行う関数
