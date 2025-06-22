@@ -11,6 +11,7 @@ export async function PUT(request: Request) {
 
 		await groupDocRef.set(
 			{
+				partyName: updates.partyName,
 				date: updates.date,
 				time: updates.time,
 			},

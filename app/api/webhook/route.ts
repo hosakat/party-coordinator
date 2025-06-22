@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { lineClient } from '@/lib/line/lineMessagingApiClient';
 import { db } from '@/lib/gcp/firebase';
-import { messages } from '@/common/messages';
+import { messages } from '@/common/consts/messages';
 
 interface LineMessage {
 	type: string; // メッセージタイプ（text、image、video など）
@@ -68,7 +68,9 @@ export async function POST(req: Request) {
 				await groupDocRef.set({
 					groupId: groupSummary.groupId,
 					groupName: groupSummary.groupName,
+					partyName: groupSummary.groupName,
 					count: groupCount.count,
+					step: 1, // 日程調整中
 					// memberIds: groupMembers.memberIds,
 					createdAt: event.timestamp,
 				});

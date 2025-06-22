@@ -1,13 +1,28 @@
 'use server';
 
+import { Group } from '@/common/types/group';
+import { db } from '@/lib/gcp/firebase';
 import { lineClient } from '@/lib/line/lineMessagingApiClient';
+import { group } from 'console';
 
 interface ScheduleData {
 	groupId: string;
-	title: string;
+	partyName: string;
 	date: string;
 	time: string;
-	participants: number;
+	count: number;
+}
+
+export async function getParty(partyId: string): Promise<Group | null> {
+	const groupDocRef = db.collection('group').doc(partyId);
+	const doc = await groupDocRef.get();
+	if (!doc.exists) {
+		console.log('No such document!');
+		return null;
+	} else {
+		console.log('Document data:', doc.data());
+		return doc.data() as Group;
+	}
 }
 
 export async function sendScheduleNotification(scheduleData: ScheduleData) {
@@ -17,10 +32,10 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 	const message = `
 🍻 飲み会の日程が確定しました！
 
-📅 イベント: ${scheduleData.title}
+📅 イベント: ${scheduleData.partyName}
 📆 日付: ${scheduleData.date}
 ⏰ 時間: ${scheduleData.time}
-👥 参加予定: ${scheduleData.participants}名
+👥 参加予定: ${scheduleData.count}名
 
 皆さん、お疲れ様でした！
 詳細は後日お知らせします。
@@ -37,6 +52,7 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 				},
 				body: JSON.stringify({
 					groupId: scheduleData.groupId,
+					partyName: scheduleData.partyName,
 					date: scheduleData.date,
 					time: scheduleData.time,
 				}),

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -21,8 +21,12 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Send } from 'lucide-react';
 import Link from 'next/link';
-import { sendScheduleNotification } from './actions';
+import { getParty, sendScheduleNotification } from './actions';
 import React from 'react';
+import { useCheckExistParty } from './useCheckExistParty';
+import { Group } from '@/common/types/group';
+import { TextInput } from '@/components/ui/textInput';
+import { EditableTitle } from '@/components/ui/editableTitle';
 
 // サンプルデータ（実際のアプリでは props や API から取得）
 const nomikaiData = {
@@ -51,34 +55,51 @@ const nomikaiData = {
 		description: '開発テスト飲み会',
 		participants: 10,
 	},
+	Cede8f22919893905b58d3108b994fd7b: {
+		title: 'テスト飲み会2',
+		description: '開発テスト飲み会',
+		participants: 10,
+	},
 };
 
 export default function SchedulePageContent({ partyId }: { partyId: string }) {
 	console.log('partyId:', partyId);
 	// const { partyId } = await params;
+	const [partyData, setPartyData] = useState<Group | null>(null);
+	const [loading, setLoading] = useState(true);
 	const router = useRouter();
+	const [partyName, setPartyName] = useState<string>();
 	const [selectedDate, setSelectedDate] = useState<Date>();
 	const [selectedTime, setSelectedTime] = useState<string>();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const nomikai = nomikaiData[partyId as unknown as keyof typeof nomikaiData];
+	// const nomikai = nomikaiData[partyId as unknown as keyof typeof nomikaiData];
 
-	if (!nomikai) {
+	// useCallbackでラップ（依存配列にpartyIdを含める）
+	const fetchParty = useCallback(async () => {
+		setLoading(true);
+		const data = await getParty(partyId);
+		setPartyData(data);
+		setPartyName(data?.partyName);
+		setLoading(false);
+	}, [partyId]);
+
+	useEffect(() => {
+		fetchParty();
+	}, [fetchParty]);
+
+	if (loading) {
+		return <div>読み込み中...</div>;
+	}
+	if (!partyData) {
 		return <div>飲み会が見つかりません</div>;
 	}
 
-	const handleGroupApiRequest = async () => {
-		try {
-			const res = await fetch('/api/group', {
-				method: 'GET',
-			});
-			if (!res.ok) throw new Error('APIリクエスト失敗');
-			const data = await res.json();
-			alert('グループAPIリクエスト成功: ' + JSON.stringify(data));
-		} catch (error) {
-			alert('グループAPIリクエスト失敗: ' + error);
-		}
-	};
+	// const partyData: Group = fetchParty(partyId);
+
+	// if (!partyData) {
+	// 	return <div>飲み会が見つかりません</div>;
+	// }
 
 	const handleScheduleConfirm = async () => {
 		if (!selectedDate || !selectedTime) return;
@@ -95,10 +116,10 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 
 			await sendScheduleNotification({
 				groupId: partyId,
-				title: nomikai.title,
+				partyName: partyName || partyData.partyName,
 				date: scheduledDateTime.toLocaleDateString('ja-JP'),
 				time: selectedTime,
-				participants: nomikai.participants,
+				count: partyData.count,
 			});
 
 			// 成功後、一覧画面に戻る
@@ -136,10 +157,17 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 				</Link>
 
 				<div className="flex items-center gap-3 mb-2">
-					<h1 className="text-3xl font-bold">{nomikai.title}</h1>
+					<TextInput
+						label="飲み会名"
+						// defaultValue={partyData.partyName}
+						value={partyName}
+						onChange={(e) => setPartyName(e.target.value)}
+						placeholder="例: 新年会"
+						className="mb-4"
+					/>
 					<Badge variant="secondary">日程調整中</Badge>
 				</div>
-				<p className="text-muted-foreground">{nomikai.description}</p>
+				{/* <p className="text-muted-foreground">{partyData.description}</p> */}
 			</div>
 
 			<div className="grid gap-6 lg:grid-cols-2">
@@ -190,7 +218,7 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 								<div className="space-y-2 text-sm">
 									<div>
 										<span className="font-medium">イベント:</span>{' '}
-										{nomikai.title}
+										{partyData.partyName}
 									</div>
 									<div>
 										<span className="font-medium">日付:</span>{' '}
@@ -201,7 +229,7 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 									</div>
 									<div>
 										<span className="font-medium">参加予定:</span>{' '}
-										{nomikai.participants}名
+										{partyData.count}名
 									</div>
 								</div>
 
@@ -217,11 +245,6 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 						</Card>
 					)}
 				</div>
-			</div>
-			<div className="mb-4">
-				<Button onClick={handleGroupApiRequest} variant="outline">
-					グループAPIリクエスト
-				</Button>
 			</div>
 		</div>
 	);
