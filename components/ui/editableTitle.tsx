@@ -4,7 +4,7 @@ import type React from 'react';
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { TitleInput } from '@/components/ui/titleInput';
 import { Edit2, Check, X } from 'lucide-react';
 // import { updateNomikaiTitle } from '@/app/(pages)/group/[id]/schedule/actions';
 
@@ -82,7 +82,7 @@ export function EditableTitle({
 	if (isEditing) {
 		return (
 			<div className="flex items-center gap-2">
-				<Input
+				<TitleInput
 					ref={inputRef}
 					value={tempTitle}
 					onChange={(e) => setTempTitle(e.target.value)}
