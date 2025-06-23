@@ -178,7 +178,7 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 							</p>
 						</div>
 
-						<input hidden name="groupId" value={groupId ?? ''} />
+						<input hidden name="groupId" value={groupId ?? ''} readOnly />
 
 						<Button type="submit" className="w-full" disabled={isPending}>
 							<Send className="h-4 w-4 mr-2" />

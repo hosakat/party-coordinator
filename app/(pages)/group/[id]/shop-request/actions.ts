@@ -1,7 +1,5 @@
 'use server';
 
-import { group } from 'console';
-
 interface ShopRequestData {
 	groupId: string;
 	memberName: string;
@@ -58,6 +56,7 @@ export async function submitShopRequest(_prevState: any, formData: FormData) {
 				`要望の登録に失敗しました。エラー：${response.statusText}`
 			);
 		}
+
 		return {
 			success: true,
 			message: `要望を受け付けました！お店選びの参考にさせていただきます。`,

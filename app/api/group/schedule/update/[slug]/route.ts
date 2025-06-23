@@ -14,6 +14,7 @@ export async function PUT(request: Request) {
 				partyName: updates.partyName,
 				date: updates.date,
 				time: updates.time,
+				step: 3,
 			},
 			{ merge: true }
 		);

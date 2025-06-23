@@ -1,17 +1,9 @@
 'use server';
 
-import { Group } from '@/common/types/group';
+import { messages } from '@/common/consts/messages';
+import { Group, ScheduleData } from '@/common/types/group';
 import { db } from '@/lib/gcp/firebase';
 import { lineClient } from '@/lib/line/lineMessagingApiClient';
-import { group } from 'console';
-
-interface ScheduleData {
-	groupId: string;
-	partyName: string;
-	date: string;
-	time: string;
-	count: number;
-}
 
 export async function getParty(partyId: string): Promise<Group | null> {
 	const groupDocRef = db.collection('group').doc(partyId);
@@ -26,21 +18,6 @@ export async function getParty(partyId: string): Promise<Group | null> {
 }
 
 export async function sendScheduleNotification(scheduleData: ScheduleData) {
-	// 実際のアプリでは、ここでLINE Messaging APIやSlack APIなどを使用
-	// 今回はコンソールログとシミュレーション
-
-	const message = `
-🍻 飲み会の日程が確定しました！
-
-📅 イベント: ${scheduleData.partyName}
-📆 日付: ${scheduleData.date}
-⏰ 時間: ${scheduleData.time}
-👥 参加予定: ${scheduleData.count}名
-
-皆さん、お疲れ様でした！
-詳細は後日お知らせします。
-  `.trim();
-
 	try {
 		// DBに日程を登録
 		const response = await fetch(
@@ -66,11 +43,20 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 		}
 
 		// LINEに日程確定メッセージを送信
-		const res = await lineClient.pushMessage({
-			to: scheduleData.groupId ?? process.env.GROUP_ID_OR_USER_ID ?? '',
-			messages: [{ type: 'text', text: message }],
+		await lineClient.pushMessage({
+			to: scheduleData.groupId ?? '',
+			messages: [
+				{ type: 'text', text: messages.schedule_confirm(scheduleData) },
+			],
 		});
 		// LINE Messaging APIのpushMessageはエラー時に例外を投げるため、ここでの追加チェックは不要
+
+		await lineClient.pushMessage({
+			to: scheduleData.groupId ?? '',
+			messages: [
+				{ type: 'text', text: messages.shop_request(scheduleData.groupId) },
+			],
+		});
 
 		return { success: true, message: 'メッセージを送信しました' };
 	} catch (error) {

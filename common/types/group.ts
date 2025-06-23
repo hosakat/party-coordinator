@@ -11,8 +11,8 @@ export type Group = {
 };
 export type ScheduleData = {
 	groupId: string;
-	title: string;
-	date: string; // YYYY-MM-DD形式
-	time: string; // HH:mm形式
-	participants: number; // 参加予定人数
+	partyName: string;
+	date: string;
+	time: string;
+	count: number;
 };
