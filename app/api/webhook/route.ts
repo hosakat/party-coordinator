@@ -104,6 +104,14 @@ export async function POST(req: Request) {
 						},
 					],
 				});
+			} else if (event.type === 'message') {
+				// メッセージイベントの処理
+				console.log('Message event received:', event);
+
+				if (event.message.type === 'text') {
+					const text = event.message.text?.trim();
+					// ここで店選びを開始させる
+				}
 			}
 		}
 
