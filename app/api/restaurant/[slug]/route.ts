@@ -1,12 +1,14 @@
-import { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/gcp/firebase';
 
 export async function GET(
-	request: Request,
-	{ params }: { params: { slug: string } }
+	request: NextRequest,
+	// { params }: { params: { slug: string } }
+	// context: { params: { slug: string } }
+	{ params }: any
 ) {
 	try {
+		// const { slug } = context.params;
 		const requestDocRef = db.collection('restaurant').doc(params.slug);
 
 		const docSnap = await requestDocRef.get();
