@@ -19,14 +19,11 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Send } from 'lucide-react';
-import Link from 'next/link';
+import { Send } from 'lucide-react';
 import { getParty, sendScheduleNotification } from './actions';
 import React from 'react';
-import { useCheckExistParty } from './useCheckExistParty';
 import { Group } from '@/common/types/group';
 import { TextInput } from '@/components/ui/textInput';
-import { EditableTitle } from '@/components/ui/editableTitle';
 
 // サンプルデータ（実際のアプリでは props や API から取得）
 const nomikaiData = {
@@ -63,19 +60,17 @@ const nomikaiData = {
 };
 
 export default function SchedulePageContent({ partyId }: { partyId: string }) {
-	console.log('partyId:', partyId);
-	// const { partyId } = await params;
 	const [partyData, setPartyData] = useState<Group | null>(null);
 	const [loading, setLoading] = useState(true);
-	const router = useRouter();
 	const [partyName, setPartyName] = useState<string>();
 	const [selectedDate, setSelectedDate] = useState<Date>();
 	const [selectedTime, setSelectedTime] = useState<string>();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitState, setSubmitState] = useState<'none' | 'false' | 'true'>(
+		'none'
+	);
+	const [message, setMessage] = useState<string>('');
 
-	// const nomikai = nomikaiData[partyId as unknown as keyof typeof nomikaiData];
-
-	// useCallbackでラップ（依存配列にpartyIdを含める）
 	const fetchParty = useCallback(async () => {
 		setLoading(true);
 		const data = await getParty(partyId);
@@ -95,12 +90,6 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 		return <div>飲み会が見つかりません</div>;
 	}
 
-	// const partyData: Group = fetchParty(partyId);
-
-	// if (!partyData) {
-	// 	return <div>飲み会が見つかりません</div>;
-	// }
-
 	const handleScheduleConfirm = async () => {
 		if (!selectedDate || !selectedTime) return;
 
@@ -114,7 +103,7 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 				Number.parseInt(minutes)
 			);
 
-			await sendScheduleNotification({
+			const response = await sendScheduleNotification({
 				groupId: partyId,
 				partyName: partyName || partyData.partyName,
 				date: scheduledDateTime.toLocaleDateString('ja-JP'),
@@ -122,8 +111,13 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 				count: partyData.count,
 			});
 
-			// 成功後、一覧画面に戻る
-			router.push('/');
+			if (response.success) {
+				setSubmitState('true');
+				setMessage(response.message);
+			} else {
+				setSubmitState('false');
+				setMessage(response.message);
+			}
 		} catch (error) {
 			console.error('スケジュール確定エラー:', error);
 		} finally {
@@ -220,8 +214,7 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 							<CardContent>
 								<div className="space-y-2 text-sm">
 									<div>
-										<span className="font-medium">イベント:</span>{' '}
-										{partyData.partyName}
+										<span className="font-medium">イベント:</span> {partyName}
 									</div>
 									<div>
 										<span className="font-medium">日付:</span>{' '}
@@ -249,6 +242,17 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 					)}
 				</div>
 			</div>
+			{submitState !== 'none' && (
+				<div
+					className={`mt-4 p-4 rounded-md ${
+						submitState === 'true'
+							? 'bg-green-50 text-green-800 border border-green-200'
+							: 'bg-red-50 text-red-800 border border-red-200'
+					}`}
+				>
+					<p className="font-medium">{message}</p>
+				</div>
+			)}
 		</div>
 	);
 }

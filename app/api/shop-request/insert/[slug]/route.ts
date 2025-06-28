@@ -10,16 +10,6 @@ export async function POST(request: Request) {
 	try {
 		const requestDocRef = db.collection('shop-request').doc(data.groupId);
 
-		// await requestDocRef.update({
-		// 	requestList: admin.firestore.FieldValue.arrayUnion({
-		// 		memberName: data.memberName,
-		// 		station: data.station,
-		// 		allergy: data.allergy,
-		// 		maxPrice: data.maxPrice,
-		// 		minPrice: data.minPrice,
-		// 	}),
-		// });
-
 		const docSnap = await requestDocRef.get();
 
 		let currentList = [];

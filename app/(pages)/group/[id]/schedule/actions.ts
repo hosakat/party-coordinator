@@ -58,9 +58,18 @@ export async function sendScheduleNotification(scheduleData: ScheduleData) {
 			],
 		});
 
-		return { success: true, message: 'メッセージを送信しました' };
+		await lineClient.pushMessage({
+			to: scheduleData.groupId ?? '',
+			messages: [{ type: 'text', text: messages.shop_request_complete }],
+		});
+
+		return { success: true, message: '日程を登録しました！' };
 	} catch (error) {
 		console.error(error);
-		return { success: false, message: 'メッセージの送信に失敗しました' };
+		return {
+			success: false,
+			message:
+				'日程の登録が失敗しました。時間を置いてからもう一度お試しください！',
+		};
 	}
 }

@@ -3,7 +3,7 @@ export type Group = {
 	groupName: string;
 	partyName: string;
 	count: number;
-	step: number; // 1: 日程調整中, 2: 日程確定, 3: 開催済み
+	step: number; // 1: 日程調整中, 2: 日程調整リマインド済み, 3: 日程決定済・条件調整中
 	createdAt: number; // タイムスタンプ
 	// memberIds?: string[]; // メンバーIDの配列（オプション）
 	date?: string; // YYYY-MM-DD形式

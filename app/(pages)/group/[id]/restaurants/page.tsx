@@ -25,7 +25,7 @@ type Restaurant = {
 	mapUrl?: string; // Google MapsのURLをオプションで追加
 };
 
-type RestaurantGroup = {
+export type RestaurantGroup = {
 	shops: Restaurant[];
 };
 
@@ -54,9 +54,14 @@ function getBudgetColor(budget: string): string {
 	}
 }
 
-export default async function RestaurantsPage() {
+export default async function RestaurantsPage({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
 	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_APL_URL}/api/restaurant/group1`,
+		`${process.env.NEXT_PUBLIC_APL_URL}/api/restaurant/${id}`,
 		{
 			method: 'GET',
 		}
