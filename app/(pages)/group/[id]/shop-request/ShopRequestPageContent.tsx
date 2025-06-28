@@ -12,8 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Send, Store } from 'lucide-react';
-import Link from 'next/link';
+import { Send, Store } from 'lucide-react';
 import { submitShopRequest } from './actions';
 import {
 	Select,
@@ -30,25 +29,20 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 	return (
 		<div className="container mx-auto p-6 max-w-2xl">
 			<div className="mb-6">
-				<Link
-					href="/"
-					className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4"
-				>
-					<ArrowLeft className="h-4 w-4" />
-					飲み会一覧に戻る
-				</Link>
-
 				<div className="flex items-center gap-3 mb-2">
-					<Store className="h-8 w-8 text-primary" />
-					<h1 className="text-3xl font-bold">お店選び要望</h1>
+					<div className="p-2 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full">
+						<Store className="h-8 w-8 text-white" />
+					</div>
+					<h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
+						お店選び要望
+					</h1>
 				</div>
-				<p className="text-muted-foreground">
-					飲み会のお店選びに関するご要望をお聞かせください。
-					いただいた情報を参考に、皆さんに喜んでいただけるお店を選定いたします。
+				<p className="text-muted-foreground text-lg">
+					みんなが喜ぶお店を見つけるために、あなたの要望を教えてください！ 🎉
 				</p>
 			</div>
 
-			<Card>
+			<Card className="shadow-xl border-2 border-orange-100 bg-gradient-to-br from-white to-orange-50">
 				<CardHeader>
 					<CardTitle>要望入力フォーム</CardTitle>
 					<CardDescription>
@@ -180,9 +174,13 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 
 						<input hidden name="groupId" value={groupId ?? ''} readOnly />
 
-						<Button type="submit" className="w-full" disabled={isPending}>
-							<Send className="h-4 w-4 mr-2" />
-							{isPending ? '送信中...' : '要望を送信'}
+						<Button
+							type="submit"
+							className="w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white shadow-lg text-lg py-6"
+							disabled={isPending}
+						>
+							<Send className="h-5 w-5 mr-2" />
+							{isPending ? '送信中... ✨' : '要望を送信する'}
 						</Button>
 					</form>
 
@@ -195,15 +193,6 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 							}`}
 						>
 							<p className="font-medium">{state.message}</p>
-							{state.success && (
-								<div className="mt-2">
-									<Link href="/">
-										<Button variant="outline" size="sm">
-											飲み会一覧に戻る
-										</Button>
-									</Link>
-								</div>
-							)}
 						</div>
 					)}
 				</CardContent>

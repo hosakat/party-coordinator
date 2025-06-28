@@ -148,14 +148,6 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 	return (
 		<div className="container mx-auto p-6 max-w-4xl">
 			<div className="mb-6">
-				<Link
-					href="/"
-					className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4"
-				>
-					<ArrowLeft className="h-4 w-4" />
-					飲み会一覧に戻る
-				</Link>
-
 				<div className="flex items-center gap-3 mb-2">
 					<TextInput
 						label="飲み会名"
@@ -165,16 +157,25 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 						placeholder="例: 新年会"
 						className="mb-4"
 					/>
-					<Badge variant="secondary">日程調整中</Badge>
+					<Badge
+						variant="secondary"
+						className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg"
+					>
+						日程調整中
+					</Badge>
 				</div>
 				{/* <p className="text-muted-foreground">{partyData.description}</p> */}
 			</div>
 
 			<div className="grid gap-6 lg:grid-cols-2">
-				<Card>
+				<Card className="shadow-xl border-2 border-blue-100 bg-gradient-to-br from-white to-blue-50">
 					<CardHeader>
-						<CardTitle>日付を選択</CardTitle>
-						<CardDescription>飲み会の開催日を選択してください</CardDescription>
+						<CardTitle className="text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+							日付を選択
+						</CardTitle>
+						<CardDescription>
+							飲み会の開催日を選択してください ✨
+						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<Calendar
@@ -188,9 +189,11 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 				</Card>
 
 				<div className="space-y-6">
-					<Card>
+					<Card className="shadow-xl border-2 border-blue-100 bg-gradient-to-br from-white to-blue-50">
 						<CardHeader>
-							<CardTitle>時間を選択</CardTitle>
+							<CardTitle className="text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+								時間を選択
+							</CardTitle>
 							<CardDescription>開始時間を選択してください</CardDescription>
 						</CardHeader>
 						<CardContent>
@@ -234,12 +237,12 @@ export default function SchedulePageContent({ partyId }: { partyId: string }) {
 								</div>
 
 								<Button
-									className="w-full mt-4"
+									className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-lg text-lg py-6"
 									onClick={handleScheduleConfirm}
 									disabled={isSubmitting}
 								>
-									<Send className="h-4 w-4 mr-2" />
-									{isSubmitting ? '送信中...' : '日程を確定してメッセージ送信'}
+									<Send className="h-5 w-5 mr-2" />
+									{isSubmitting ? '送信中...' : '日程を確定する'}
 								</Button>
 							</CardContent>
 						</Card>

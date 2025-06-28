@@ -8,7 +8,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-	ArrowLeft,
 	MapPin,
 	JapaneseYenIcon as Yen,
 	ExternalLink,
@@ -72,12 +71,16 @@ export default async function RestaurantsPage() {
 		<div className="container mx-auto p-6">
 			<div className="mb-6">
 				<div className="flex items-center gap-3 mb-2">
-					<Star className="h-8 w-8 text-primary" />
-					<h1 className="text-3xl font-bold">おすすめ飲食店</h1>
+					<div className="p-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full">
+						<Star className="h-8 w-8 text-white" />
+					</div>
+					<h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+						おすすめ飲食店
+					</h1>
 				</div>
-				<p className="text-muted-foreground">
-					飲み会におすすめの厳選された飲食店をご紹介します。
-					各店舗の詳細情報とGoogle Mapsでの場所もご確認いただけます。
+				<p className="text-muted-foreground text-lg">
+					飲み会にぴったりな厳選されたお店をご紹介！
+					みんなで楽しい時間を過ごしましょう 🎊
 				</p>
 			</div>
 
@@ -85,7 +88,7 @@ export default async function RestaurantsPage() {
 				{restaurants.map((restaurant) => (
 					<Card
 						key={restaurant.name}
-						className="hover:shadow-lg transition-shadow"
+						className="hover:shadow-xl transition-all duration-300 border-2 hover:border-yellow-200 bg-gradient-to-br from-white to-yellow-50"
 					>
 						<CardHeader>
 							<div className="flex items-start justify-between">
@@ -118,14 +121,14 @@ export default async function RestaurantsPage() {
 								<Button
 									asChild
 									variant="outline"
-									className="w-full bg-transparent"
+									className="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white border-0 shadow-lg"
 									size="sm"
 								>
 									<Link
-										href={
-											restaurant.mapUrl ||
-											generateGoogleMapsUrl(restaurant.name, restaurant.station)
-										}
+										href={generateGoogleMapsUrl(
+											restaurant.name,
+											restaurant.station
+										)}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
@@ -139,18 +142,18 @@ export default async function RestaurantsPage() {
 				))}
 			</div>
 
-			<div className="mt-8 p-4 bg-amber-50 rounded-lg border border-amber-200">
-				<h3 className="font-semibold text-amber-900 mb-2">
+			<div className="mt-8 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border-2 border-amber-200 shadow-lg">
+				<h3 className="font-bold text-amber-900 mb-3 text-lg">
 					📍 お店選びのヒント
 				</h3>
-				<ul className="text-sm text-amber-800 space-y-1">
+				<ul className="text-sm text-amber-800 space-y-2">
 					<li>
-						• 価格帯は一人当たりの目安です（飲み放題込みの場合が多いです）
+						• 💰 価格帯は一人当たりの目安です（飲み放題込みの場合が多いです）
 					</li>
-					<li>• 事前に予約を取ることをおすすめします</li>
-					<li>• Google Mapで実際の場所や口コミもご確認ください</li>
+					<li>• 📞 事前に予約を取ることをおすすめします</li>
+					<li>• 🗺️ Google Mapで実際の場所や口コミもご確認ください</li>
 					<li>
-						• アレルギーや苦手な食べ物がある場合は事前にお店に相談しましょう
+						• 🚨 アレルギーや苦手な食べ物がある場合は事前にお店に相談しましょう
 					</li>
 				</ul>
 			</div>
