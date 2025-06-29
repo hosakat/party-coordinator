@@ -15,6 +15,19 @@ import {
 	ArrowRight,
 	Sparkles,
 } from 'lucide-react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: { default: '飲み会幹事 イイカンジ', template: '%s | イイカンジ' },
+	description:
+		'飲み会幹事 イイカンジは飲み会の企画・幹事をサポートするアプリです',
+	robots: {
+		index: false, // クローリングされないようにする
+		googleBot: {
+			index: false,
+		},
+	},
+};
 
 export default function HomePage() {
 	return (
