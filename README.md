@@ -16,11 +16,6 @@
 
 `ngrok http 3000`
 
-## メモ
-
-ぐるなび API
-https://solution.gnavi.co.jp/service/gnavi_api/
-
 ### Cloudrun Function によるリマインド
 
 工夫

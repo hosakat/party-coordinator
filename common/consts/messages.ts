@@ -4,8 +4,6 @@ export const messages = {
 	join: '招待ありがとう！\n幹事を担当するいいカンジです。よろしくね！',
 	start_schedule:
 		'まずは日程を決めよう！\n以下のリンクから出欠表を作ってね。\n\nhttps://chouseisan.com/',
-	// manage_url: (groupId: string) =>
-	// 	`管理画面はこちらです。\n${process.env.NEXT_PUBLIC_APL_URL}/group/${groupId}`,
 	schedule_url: (groupId: string) =>
 		`日程が決まったらこちらのフォームで教えてください！\n${process.env.NEXT_PUBLIC_APL_URL}/group/${groupId}/schedule`,
 	schedule_confirm: (data: ScheduleData) => `🍻 飲み会の日程が確定したよ！
@@ -22,6 +20,6 @@ export const messages = {
 	shop_request_complete:
 		'全員の入力が終わったら、\n「イイカンジ、お店を選んで！」\nとメッセージを送ってね！',
 	search_complete: (groupId: string) =>
-		`お店の選定が完了しました！👏\n以下のリンクからお店の情報を確認してね！\n\n${process.env.NEXT_PUBLIC_APL_URL}/group/${groupId}/restaurants`,
-	offer_reservation: `ぜひお店のリストを参考にして、\n予約をお願いします！`,
+		`お店の選定が完了しました！🥳\n以下のリンクからお店の情報を確認してね！\n\n${process.env.NEXT_PUBLIC_APL_URL}/group/${groupId}/restaurants`,
+	offer_reservation: `お店のリストをぜひ参考にして、\n気に入ったものがあれば予約をお願いします！`,
 };
