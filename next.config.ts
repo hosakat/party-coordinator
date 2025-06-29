@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
 		FIREBASE_SERVICE_ACCOUNT: process.env.FIREBASE_SERVICE_ACCOUNT,
 		NEXT_PUBLIC_APL_URL: process.env.NEXT_PUBLIC_APL_URL,
 	},
+	output: 'standalone',
 };
 
 export default nextConfig;
