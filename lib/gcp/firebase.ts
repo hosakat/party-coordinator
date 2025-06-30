@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import 'dotenv/config'; // ESMの場合
 
 // サービスアカウントのパスを指定
 // import serviceAccountJson from '../../sa-key.json';
