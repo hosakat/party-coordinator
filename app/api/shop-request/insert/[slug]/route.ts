@@ -25,6 +25,7 @@ export async function POST(request: Request) {
 			allergy: data.allergy,
 			maxPrice: data.maxPrice,
 			minPrice: data.minPrice,
+			request: data.request,
 		};
 
 		currentList.push(requestList); // 新しいオブジェクトを追加

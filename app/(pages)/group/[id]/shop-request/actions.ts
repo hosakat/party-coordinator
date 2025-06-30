@@ -47,6 +47,7 @@ export async function submitShopRequest(_prevState: any, formData: FormData) {
 					allergy: data.allergy,
 					maxPrice: data.maxPrice,
 					minPrice: data.minPrice,
+					request: data.request,
 				}),
 			}
 		);
