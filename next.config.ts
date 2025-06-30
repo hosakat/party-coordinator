@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
 		LINE_CHANNEL_ACCESS_TOKEN: process.env.LINE_CHANNEL_ACCESS_TOKEN,
 		FIREBASE_SERVICE_ACCOUNT: process.env.FIREBASE_SERVICE_ACCOUNT,
 		NEXT_PUBLIC_APL_URL: process.env.NEXT_PUBLIC_APL_URL,
+		NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
 	},
 	output: 'standalone',
 };
