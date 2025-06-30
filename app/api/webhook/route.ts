@@ -142,6 +142,8 @@ export async function POST(req: Request) {
 										},
 									],
 								});
+								console.log("リクエスト前");
+								console.log(requestData?.requestList);
 								const response = await fetch(
 									`${process.env.NEXT_PUBLIC_API_URL}/search`,
 									{
@@ -232,11 +234,12 @@ export async function POST(req: Request) {
 			{ status: 200 }
 		);
 	} catch (error) {
+		console.error('Error processing webhook:', error);
 		await lineClient.pushMessage({
 			to: process.env.GROUP_ID_OR_USER_ID ?? '',
 			messages: [{ type: 'text', text: `エラー ${error}` }],
 		});
-		console.error('Error processing webhook:', error);
+		
 		return NextResponse.json({ error: error }, { status: 500 });
 	}
 	// } else {
