@@ -65,12 +65,14 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 						</div>
 
 						<div className="space-y-2">
-							<Label htmlFor="nearestStation">最寄り駅</Label>
+							<Label htmlFor="nearestStation">
+								最寄り駅<span className="text-red-500">*</span>
+							</Label>
 							<Input
 								id="nearestStation"
 								name="nearestStation"
 								placeholder="新宿駅、渋谷駅など"
-								// required
+								required
 								disabled={isPending}
 							/>
 							<p className="text-sm text-muted-foreground">
@@ -134,10 +136,13 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 						</p>
 
 						<div className="space-y-2">
-							<Label htmlFor="shopRequests">お店選びにおける要望</Label>
+							<Label htmlFor="shopRequests">
+								お店選びにおける要望<span className="text-red-500">*</span>
+							</Label>
 							<Textarea
 								id="shopRequests"
 								name="shopRequests"
+								required
 								placeholder={`例：
 ・個室があると嬉しいです
 ・和食が好みです
@@ -149,6 +154,8 @@ export default function ShopRequestPage({ groupId }: { groupId: string }) {
 							/>
 							<p className="text-sm text-muted-foreground">
 								お店の雰囲気、料理のジャンル、予算、立地など、ご希望があればお書きください
+								<br />
+								特になければ、「特になし」でもOKです
 							</p>
 						</div>
 

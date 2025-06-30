@@ -27,9 +27,17 @@ export async function submitShopRequest(_prevState: any, formData: FormData) {
 		return { success: false, message: '名前を入力してください' };
 	}
 
-	// if (!data.nearestStation.trim()) {
-	// 	return { success: false, message: '最寄り駅を入力してください' };
-	// }
+	if (!data.station.trim()) {
+		return { success: false, message: '最寄り駅を入力してください' };
+	}
+
+	if (!data.request.trim()) {
+		return {
+			success: false,
+			message:
+				'要望を入力してください。特にない場合は「特になし」と入力してください。',
+		};
+	}
 
 	try {
 		// DBに要望を登録
